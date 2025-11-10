@@ -1,0 +1,31 @@
+# ~/code/ltphongssvn/Supply-Chain-Optimization-Platform/.pre-commit-config.yaml
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: .*\.lock|.*\.log
+  - repo: local
+    hooks:
+      - id: block-node-modules
+        name: Block node_modules
+        entry: sh -c 'git diff --cached --name-only | grep -q "node_modules/" && echo "ERROR - node_modules detected. Check .gitignore" && exit 1 || exit 0'
+        language: system
+        pass_filenames: false
+      - id: block-build-artifacts
+        name: Block Build Artifacts
+        entry: sh -c 'git diff --cached --name-only | grep -qE "(dist/|build/|\.log$)" && echo "ERROR - Build artifacts detected. Remove with git rm --cached" && exit 1 || exit 0'
+        language: system
+        pass_filenames: false
+      - id: check-large-files
+        name: Check Large Files
+        entry: sh -c 'git diff --cached --name-only | xargs -I {} sh -c "[ -f {} ] && [ $(stat -f%z {} 2>/dev/null || stat -c%s {} 2>/dev/null) -gt 1048576 ] && echo WARNING - Large file: {}" || true'
+        language: system
+        pass_filenames: false
+      - id: auto-clean-untracked
+        name: Auto Move Untracked Files
+        entry: sh -c 'if [ -n "$(git status --porcelain | grep "^??")" ]; then ./git-clean-commit.sh; fi; exit 0'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
