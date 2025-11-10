@@ -52,3 +52,40 @@ REACT_APP_GOOGLE_MAPS_KEY=${REACT_APP_GOOGLE_MAPS_KEY}
 
 ## Development
 All configuration via environment variables
+
+## React Components
+
+### Dashboard.jsx
+Main dashboard orchestrating all agent visualizations. Fetches data from all three agents in parallel.
+
+### RouteVisualization.jsx
+Displays optimized delivery routes with distance, time, and waypoints.
+
+### RiskAlerts.jsx
+Shows risk levels (low/moderate/high) with weather and geopolitical factors.
+
+### InventoryStatus.jsx
+Displays stock levels and stock-out predictions with recommendations.
+
+## API Service (services/api.js)
+Centralizes backend communication using axios. Uses REACT_APP_API_URL environment variable.
+
+## Styling
+- App.css: Header and layout
+- Dashboard.css: Component grid, cards, risk/stock indicators
+
+## Testing Components
+
+### Start both servers:
+```bash
+# Terminal 1 - Backend
+cd backend && npm run dev
+
+# Terminal 2 - Frontend
+cd frontend && npm start
+```
+
+### Access dashboard:
+```
+http://localhost:3000
+```
