@@ -2,18 +2,23 @@
 
 const express = require('express');
 const router = express.Router();
+const InventoryAgent = require('../agents/InventoryAgent');
 
-// GET /api/v1/inventory/status
-router.get('/status', (req, res) => {
-  res.json({
-    status: 'success',
-    message: 'Inventory Agent analysis',
-    data: {
-      stockLevel: 'adequate',
-      predictions: [],
-      lastUpdated: new Date().toISOString()
-    }
-  });
+const inventoryAgent = new InventoryAgent();
+
+router.get('/status', async (req, res) => {
+  try {
+    const { items, timeframe } = req.query;
+    
+    const result = await inventoryAgent.execute({
+      items: items ? items.split(',') : [],
+      timeframe: timeframe ? parseInt(timeframe) : 30
+    });
+    
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;

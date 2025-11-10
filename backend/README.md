@@ -268,3 +268,45 @@ Centralized environment variable management:
 - External API keys
 - Agent timeouts and retries
 - CORS settings
+
+## Agent Implementations
+
+### BaseAgent Class
+Core 5-step agentic problem-solving process:
+1. **receiveMission** - Get goal/trigger
+2. **gatherContext** - Collect resources
+3. **thinkAndPlan** - Devise strategy
+4. **executeAction** - Perform task
+5. **observeOutcome** - Record results
+
+### RouteOptimizerAgent
+Optimizes delivery routes using Google Maps API.
+
+**Test:**
+```bash
+curl -X POST http://localhost:3000/api/v1/routes/optimize \
+  -H "Content-Type: application/json" \
+  -d '{"destinations": ["NYC", "LA", "Chicago"], "constraints": {"maxTime": 48}}'
+```
+
+### RiskAssessmentAgent
+Monitors weather and geopolitical events.
+
+**Test:**
+```bash
+curl "http://localhost:3000/api/v1/risks/assess?regions=US,EU&checkTypes=weather,geopolitical"
+```
+
+### InventoryAgent
+Predicts stock-outs using historical data.
+
+**Test:**
+```bash
+curl "http://localhost:3000/api/v1/inventory/status?items=item1,item2&timeframe=30"
+```
+
+### Agent Architecture
+- **Level 2**: Strategic Problem-Solver with planning
+- **Memory**: Short-term session history
+- **Retries**: Configurable via MAX_RETRIES env var
+- **Timeout**: Configurable via TIMEOUT_MS env var
