@@ -403,3 +403,147 @@ Fixed `frontend/src/services/api.js`:
 # Deployed to Railway: railway up
 # Verified API: curl -s https://supply-chain-optimizati-platform.thanhphongle.net/api/v1/routes/optimize
 ```
+
+## Railway Configuration Update - Frontend Deployment (Nov 10, 2025)
+
+### Issue Resolved
+- **Problem**: Railway was deploying backend instead of frontend with corrected api.js
+- **Root Cause**: `railway.json` pointed to root `Dockerfile` which builds backend
+- **Solution**: Updated `railway.json` to use `frontend/Dockerfile`
+
+### Configuration Change
+**File Modified**: `railway.json`
+
+**Changed dockerfilePath**:
+```json
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  }
+}
+```
+
+**Previous**: `"dockerfilePath": "Dockerfile"` (deployed backend)
+**Current**: `"dockerfilePath": "frontend/Dockerfile"` (deploys frontend)
+
+### Why This Change
+- Frontend contains corrected `api.js` with proper axios syntax
+- Frontend uses relative URLs (`API_URL = ''`) to avoid CORS issues
+- Ensures deployed frontend calls backend API correctly
+
+### Commands Used
+```bash
+# Updated railway.json
+cat > railway.json << 'EOF'
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
+
+## Railway Configuration Update - Frontend Deployment (Nov 10, 2025)
+
+### Issue Resolved
+- **Problem**: Railway was deploying backend instead of frontend with corrected api.js
+- **Root Cause**: `railway.json` pointed to root `Dockerfile` which builds backend
+- **Solution**: Updated `railway.json` to use `frontend/Dockerfile`
+
+### Configuration Change
+**File Modified**: `railway.json`
+
+**Changed dockerfilePath**:
+```json
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  }
+}
+```
+
+**Previous**: `"dockerfilePath": "Dockerfile"` (deployed backend)
+**Current**: `"dockerfilePath": "frontend/Dockerfile"` (deploys frontend)
+
+### Why This Change
+- Frontend contains corrected `api.js` with proper axios syntax
+- Frontend uses relative URLs (`API_URL = ''`) to avoid CORS issues
+- Ensures deployed frontend calls backend API correctly
+
+### Commands Used
+```bash
+# Updated railway.json
+cat > railway.json << 'EOF'
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
+
+## Railway Configuration Update - Frontend Deployment (Nov 10, 2025)
+
+### Issue Resolved
+- **Problem**: Railway was deploying backend instead of frontend with corrected api.js
+- **Root Cause**: `railway.json` pointed to root `Dockerfile` which builds backend
+- **Solution**: Updated `railway.json` to use `frontend/Dockerfile`
+
+### Configuration Change
+**File Modified**: `railway.json`
+
+**Changed dockerfilePath**:
+```json
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  }
+}
+```
+
+**Previous**: `"dockerfilePath": "Dockerfile"` (deployed backend)
+**Current**: `"dockerfilePath": "frontend/Dockerfile"` (deploys frontend)
+
+### Why This Change
+- Frontend contains corrected `api.js` with proper axios syntax
+- Frontend uses relative URLs (`API_URL = ''`) to avoid CORS issues
+- Ensures deployed frontend calls backend API correctly
+
+### Commands Used
+```bash
+# Updated railway.json
+cat > railway.json << 'EOF'
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "frontend/Dockerfile"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
+EOF
+
+# Verified change
+cat railway.json && git status
+```
+
+### Status
+- ✅ railway.json updated to deploy frontend
+- ⏳ Ready for deployment with `railway up`
