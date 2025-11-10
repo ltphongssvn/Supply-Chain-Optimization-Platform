@@ -4,12 +4,15 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+ARG PORT=3000
+ENV PORT=${PORT}
+
 COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE ${PORT}
 
 CMD ["npm", "start"]
