@@ -320,3 +320,23 @@ curl -X POST http://localhost:3000/api/v1/agents/coordinate \
 - All 4 AI agents working
 - Multi-agent coordination functional
 - Network communication verified
+
+## Frontend-Backend Communication Fix - 2025-11-10
+
+### Issue Resolved
+- **Problem**: Frontend showed "No data available" despite backend working
+- **Root Cause**: CORS blocking - backend only allowed http://localhost:3000 but frontend runs on port 3001
+- **Solution**: Added CORS_ORIGIN environment variable to docker-compose.yml
+
+### Configuration Change
+```yaml
+backend:
+  environment:
+    - CORS_ORIGIN=http://localhost:3001
+```
+
+### Verification
+- All dashboard sections now load data:
+  - Route Optimization: Shows optimized routes
+  - Risk Alerts: Displays risk assessment
+  - Inventory Status: Shows stock levels
