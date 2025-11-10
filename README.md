@@ -37,3 +37,30 @@ Following GitFlow branching strategy:
 - Date: 2025-11-09
 - Git repository initialized
 - GitFlow structure established
+
+## Git Workflow - Squash Merge Strategy
+
+### Branch Workflow
+1. Create feature branch from `develop`
+2. Make changes and commit
+3. Push feature branch to remote
+4. Create Pull Request
+5. **Squash merge** to consolidate commits
+6. **Delete remote branch** automatically
+7. Prune stale local references
+
+### Merge Command
+```bash
+gh pr merge --squash --delete-branch
+```
+
+### Benefits
+- **Traceability**: One commit per feature
+- **Revertibility**: Rollback entire feature atomically
+- **Clean History**: No "WIP" or "fix typo" commits
+- **Repository Hygiene**: No stale branches
+
+### After Merge Cleanup
+```bash
+git fetch --prune && git branch -d feature/branch-name && git status
+```
