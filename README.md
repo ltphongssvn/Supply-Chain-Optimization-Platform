@@ -368,3 +368,23 @@ backend:
 - PORT=8080
 - NODE_ENV=production
 
+
+## Troubleshooting Log - Frontend-Backend API Connection Issue (Nov 10, 2025)
+
+### Problem Identified
+- Frontend loaded but showed "No data available" for Route Optimization, Risk Alerts, and Inventory Status
+- Root cause: Syntax errors in `frontend/src/services/api.js` - incorrect axios method calls with misplaced backticks
+
+### Solution Applied
+Fixed `frontend/src/services/api.js`:
+- Corrected axios syntax from `axios.post\`url\`` to `axios.post(url)`
+- Changed default API URL from port 3000 to 8080 to match backend
+- Fixed template literal syntax for proper string interpolation
+
+### Files Modified
+- `frontend/src/services/api.js` - Fixed axios API calls syntax
+
+### Next Steps
+- Rebuild frontend with corrected API configuration
+- Copy new build to backend/public directory
+- Deploy to Railway
