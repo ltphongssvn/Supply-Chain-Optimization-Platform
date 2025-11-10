@@ -2,20 +2,20 @@
 
 const express = require('express');
 const router = express.Router();
+const CoordinatorAgent = require('../agents/CoordinatorAgent');
 
-// POST /api/v1/agents/coordinate
-router.post('/coordinate', (req, res) => {
-  const { task, params } = req.body;
-  
-  res.json({
-    status: 'processing',
-    message: 'Coordinator Agent orchestrating multi-agent task',
-    data: {
-      task,
-      params,
-      agentsInvolved: ['route-optimizer', 'risk-assessment', 'inventory']
-    }
-  });
+const coordinator = new CoordinatorAgent();
+
+router.post('/coordinate', async (req, res) => {
+  try {
+    const { task, params } = req.body;
+    
+    const result = await coordinator.execute({ task, params });
+    
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;

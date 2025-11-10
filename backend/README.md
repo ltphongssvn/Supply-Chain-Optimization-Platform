@@ -310,3 +310,34 @@ curl "http://localhost:3000/api/v1/inventory/status?items=item1,item2&timeframe=
 - **Memory**: Short-term session history
 - **Retries**: Configurable via MAX_RETRIES env var
 - **Timeout**: Configurable via TIMEOUT_MS env var
+
+## Coordinator Agent (Level 3 Multi-Agent System)
+
+### CoordinatorAgent
+Orchestrates specialist agents using MCP-inspired protocol. Manages task delegation and result aggregation.
+
+**Features:**
+- Determines optimal agent sequence based on task
+- Executes agents in coordination
+- Aggregates results from multiple agents
+- Memory tracking of all agent interactions
+
+**Test coordination:**
+```bash
+curl -X POST http://localhost:3000/api/v1/agents/coordinate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "task": "optimize_supply_chain",
+    "params": {
+      "destinations": ["NYC", "LA"],
+      "regions": ["US"],
+      "items": ["item1", "item2"]
+    }
+  }'
+```
+
+**Agent Sequences:**
+- `optimize_supply_chain`: Risk → Route → Inventory
+- `assess_risks_only`: Risk Assessment
+- `optimize_routes_only`: Route Optimizer
+- `check_inventory_only`: Inventory
