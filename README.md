@@ -208,3 +208,84 @@ git branch -a
 docker compose build
 # Successfully builds both services
 ```
+
+## Docker Compose Deployment
+
+### Container Build
+```bash
+docker compose build
+```
+
+**Console Output:**
+```
+[+] Building 88.5s (21/21) FINISHED
+ => [backend] exporting to image  9.4s
+ => [frontend] exporting to image  33.9s
+✔ supply-chain-optimization-platform-backend   Built
+✔ supply-chain-optimization-platform-frontend  Built
+```
+
+### Start Containers
+```bash
+docker compose up -d
+```
+
+**Console Output:**
+```
+✔ Network supply-chain-optimization-platform_app-network   Created
+✔ Container supply-chain-optimization-platform-backend-1   Started
+✔ Container supply-chain-optimization-platform-frontend-1  Started
+```
+
+### Verify Status
+```bash
+docker compose ps
+```
+
+**Console Output:**
+```
+NAME                                            IMAGE                                         STATUS              PORTS
+supply-chain-optimization-platform-backend-1    supply-chain-optimization-platform-backend    Up About a minute   0.0.0.0:3000->3000/tcp
+supply-chain-optimization-platform-frontend-1   supply-chain-optimization-platform-frontend   Up About a minute   0.0.0.0:3001->3000/tcp
+```
+
+### Testing Results
+
+**Backend Health Check:**
+```bash
+curl http://localhost:3000/health
+```
+**Output:** `{"status":"healthy","timestamp":"2025-11-10T17:52:28.808Z","service":"supply-chain-backend"}`
+
+**Route Optimizer Test:**
+```bash
+curl -X POST http://localhost:3000/api/v1/routes/optimize \
+  -H "Content-Type: application/json" \
+  -d '{"destinations": ["NYC", "LA"], "constraints": {"maxTime": 48}}'
+```
+**Output:** `{"status":"success","agent":"RouteOptimizerAgent"...,"estimatedTime":"6.0 hours","estimatedDistance":"300 miles"}`
+
+**Frontend Accessibility:**
+```bash
+curl http://localhost:3001 | grep -q "Supply Chain" && echo "Frontend container accessible"
+```
+**Output:** `Frontend container accessible`
+
+### Docker Commands
+```bash
+# View logs
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# Stop containers
+docker compose down
+
+# Rebuild and restart
+docker compose up -d --build
+```
+
+### Verified ✅
+- Backend container running on port 3000
+- Frontend container running on port 3001
+- Multi-agent system operational in Docker
+- Network communication functional
