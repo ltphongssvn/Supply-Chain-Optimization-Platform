@@ -1,7 +1,8 @@
 // ~/code/ltphongssvn/Supply-Chain-Optimization-Platform/frontend/src/services/api.js
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+// Use relative URLs when served from same domain
+const API_URL = process.env.REACT_APP_API_URL || '';
 
 const api = {
     getRoutes: async () => {
