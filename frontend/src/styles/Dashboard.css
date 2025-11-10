@@ -1,0 +1,79 @@
+/* ~/code/ltphongssvn/Supply-Chain-Optimization-Platform/frontend/src/styles/Dashboard.css */
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-card h2 {
+  margin: 0 0 15px 0;
+  color: #282c34;
+  border-bottom: 2px solid #61dafb;
+  padding-bottom: 10px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+}
+
+.refresh-btn {
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+.refresh-btn:hover {
+  background-color: #4fa8c5;
+}
+
+.risk-level {
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.risk-low { background-color: #d4edda; color: #155724; }
+.risk-moderate { background-color: #fff3cd; color: #856404; }
+.risk-high { background-color: #f8d7da; color: #721c24; }
+
+.stock-level {
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.stock-healthy { background-color: #d4edda; }
+.stock-adequate { background-color: #d1ecf1; }
+.stock-low { background-color: #fff3cd; }
+.stock-critical { background-color: #f8d7da; }
+
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+li {
+  margin: 8px 0;
+}
