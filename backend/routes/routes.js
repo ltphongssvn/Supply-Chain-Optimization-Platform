@@ -2,20 +2,23 @@
 
 const express = require('express');
 const router = express.Router();
+const RouteOptimizerAgent = require('../agents/RouteOptimizerAgent');
 
-// POST /api/v1/routes/optimize
-router.post('/optimize', (req, res) => {
-  const { destinations, constraints } = req.body;
-  
-  res.json({
-    status: 'pending',
-    message: 'Route Optimizer Agent will process this request',
-    data: {
+const routeAgent = new RouteOptimizerAgent();
+
+router.post('/optimize', async (req, res) => {
+  try {
+    const { destinations, constraints } = req.body;
+    
+    const result = await routeAgent.execute({
       destinations,
-      constraints,
-      estimatedTime: '30s'
-    }
-  });
+      constraints
+    });
+    
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;
