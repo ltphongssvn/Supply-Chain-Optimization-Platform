@@ -1,11 +1,20 @@
 #!/bin/bash
 # ~/code/ltphongssvn/Supply-Chain-Optimization-Platform/git-clean-commit.sh
+
 # Ensure .backups/ is in .gitignore
 if ! grep -q "^\.backups/$" .gitignore 2>/dev/null; then
     echo ".backups/" >> .gitignore
     echo "Added .backups/ to .gitignore"
 fi
-# Check for untracked files
+
+# Check for modified/deleted files that need staging (space in first column = unstaged)
+if [ -n "$(git status --porcelain | grep '^ [MD]')" ]; then
+    echo "ERROR: Unstaged changes detected. Stage your changes first:"
+    git status --porcelain | grep '^ [MD]'
+    exit 1
+fi
+
+# Only move untracked files if everything else is staged
 if [ -n "$(git status --porcelain | grep '^??')" ]; then
     echo "Moving untracked files to .backups/"
     mkdir -p .backups
@@ -17,12 +26,9 @@ if [ -n "$(git status --porcelain | grep '^??')" ]; then
         fi
     done
 fi
+
 # Show clean status
 echo "Working directory status:"
-git status --short
-# Exit if not clean
-if [ -n "$(git status --porcelain | grep -v "^?? \.backups/")" ]; then
-    echo "ERROR: Working directory not pristine. Stage changes first."
-    exit 1
-fi
+git status
+
 echo "Working directory is pristine ✓"
