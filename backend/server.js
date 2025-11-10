@@ -4,11 +4,13 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
+const config = require('./config');
+const apiRoutes = require('./routes');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors());
+app.use(cors(config.cors));
 app.use(express.json());
 
 // Health check endpoint
@@ -34,37 +36,8 @@ app.get('/api/v1', (req, res) => {
   });
 });
 
-// Route optimization endpoint
-app.post('/api/v1/routes/optimize', (req, res) => {
-  res.json({ 
-    message: 'Route optimization endpoint - Agent implementation pending',
-    received: req.body 
-  });
-});
-
-// Risk assessment endpoint
-app.get('/api/v1/risks/assess', (req, res) => {
-  res.json({ 
-    message: 'Risk assessment endpoint - Agent implementation pending',
-    riskLevel: 'low'
-  });
-});
-
-// Inventory status endpoint
-app.get('/api/v1/inventory/status', (req, res) => {
-  res.json({ 
-    message: 'Inventory status endpoint - Agent implementation pending',
-    stockLevel: 'adequate'
-  });
-});
-
-// Agent coordination endpoint
-app.post('/api/v1/agents/coordinate', (req, res) => {
-  res.json({ 
-    message: 'Agent coordination endpoint - MCP implementation pending',
-    received: req.body
-  });
-});
+// Mount API routes
+app.use('/api/v1', apiRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -84,9 +57,9 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Supply Chain Backend running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+app.listen(config.port, () => {
+  console.log(`Supply Chain Backend running on port ${config.port}`);
+  console.log(`Environment: ${config.nodeEnv}`);
 });
 
 module.exports = app;
