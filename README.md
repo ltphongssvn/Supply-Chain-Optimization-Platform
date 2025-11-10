@@ -191,3 +191,20 @@ git branch -a
 git fetch --prune
 git branch -a
 ```
+
+## Docker Build Fix - 2025-11-10
+
+### Issue Resolved
+- **Error**: `invalid file request node_modules/.bin/baseline-browser-mapping`
+- **Cause**: Missing .dockerignore files caused Docker to include node_modules symlinks in build context
+- **Solution**: Created .dockerignore files for backend and frontend directories
+
+### Files Added
+- `backend/.dockerignore` - Excludes node_modules and build artifacts
+- `frontend/.dockerignore` - Excludes node_modules, .next, and build artifacts
+
+### Verification
+```bash
+docker compose build
+# Successfully builds both services
+```
