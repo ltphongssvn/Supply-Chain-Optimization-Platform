@@ -2,18 +2,23 @@
 
 const express = require('express');
 const router = express.Router();
+const RiskAssessmentAgent = require('../agents/RiskAssessmentAgent');
 
-// GET /api/v1/risks/assess
-router.get('/assess', (req, res) => {
-  res.json({
-    status: 'success',
-    message: 'Risk Assessment Agent analysis',
-    data: {
-      riskLevel: 'moderate',
-      factors: ['weather', 'geopolitical'],
-      lastUpdated: new Date().toISOString()
-    }
-  });
+const riskAgent = new RiskAssessmentAgent();
+
+router.get('/assess', async (req, res) => {
+  try {
+    const { regions, checkTypes } = req.query;
+    
+    const result = await riskAgent.execute({
+      regions: regions ? regions.split(',') : [],
+      checkTypes: checkTypes ? checkTypes.split(',') : ['weather', 'geopolitical']
+    });
+    
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;
