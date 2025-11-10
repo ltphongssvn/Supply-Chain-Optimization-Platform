@@ -223,3 +223,48 @@ npm install
 - Verify .env file exists in backend/
 - Check .env values are set correctly
 - Restart server after .env changes
+
+## Routes Structure
+
+### File Organization
+```
+backend/routes/
+├── index.js        # Main router mounting all routes
+├── routes.js       # Route optimization endpoints
+├── risks.js        # Risk assessment endpoints
+├── inventory.js    # Inventory status endpoints
+└── agents.js       # Agent coordination endpoints
+```
+
+### Testing Routes
+
+#### Test route optimization
+```bash
+curl -X POST http://localhost:3000/api/v1/routes/optimize \
+  -H "Content-Type: application/json" \
+  -d '{"destinations": ["NYC", "LA"], "constraints": {"maxTime": 48}}'
+```
+
+#### Test risk assessment
+```bash
+curl http://localhost:3000/api/v1/risks/assess
+```
+
+#### Test inventory status
+```bash
+curl http://localhost:3000/api/v1/inventory/status
+```
+
+#### Test agent coordination
+```bash
+curl -X POST http://localhost:3000/api/v1/agents/coordinate \
+  -H "Content-Type: application/json" \
+  -d '{"task": "optimize_supply_chain", "params": {}}'
+```
+
+### Configuration (config/index.js)
+Centralized environment variable management:
+- Server port and environment
+- External API keys
+- Agent timeouts and retries
+- CORS settings
