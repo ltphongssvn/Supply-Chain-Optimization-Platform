@@ -340,3 +340,31 @@ backend:
   - Route Optimization: Shows optimized routes
   - Risk Alerts: Displays risk assessment
   - Inventory Status: Shows stock levels
+
+## Railway Deployment
+
+**Deployment Status:** ✅ Successfully deployed
+**URL:** https://supply-chain-optimizati-platform-production.up.railway.app
+**Service:** Backend API (Node.js)
+**Port:** 8080
+**Date:** 2025-11-10 12:12
+
+### Deployment Configuration
+- Uses root Dockerfile copying from backend/
+- Railway project: Supply-Chain-Optimizati-Platform
+- Environment: production
+
+
+### API Endpoints
+- Root: Returns 404 (expected - no root handler)
+- Health: /health
+- API Base: /api/v1
+- Routes: /api/v1/routes
+- Risks: /api/v1/risks
+- Inventory: /api/v1/inventory
+- Agents: /api/v1/agents
+
+### Environment Variables Set
+- PORT=8080
+- NODE_ENV=production
+
