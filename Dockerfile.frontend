@@ -1,0 +1,14 @@
+# ~/code/ltphongssvn/Supply-Chain-Optimization-Platform/Dockerfile.frontend
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/build /app/build
+EXPOSE ${PORT:-3000}
+CMD sh -c "serve -s build -l ${PORT:-3000}"

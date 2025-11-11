@@ -547,3 +547,46 @@ cat railway.json && git status
 ### Status
 - ✅ railway.json updated to deploy frontend
 - ⏳ Ready for deployment with `railway up`
+
+## Railway PORT Configuration Fix (Nov 10, 2025)
+
+### Issue Resolved
+- **Problem**: 502 Bad Gateway - container listening on port 3000 but Railway assigns dynamic PORT
+- **Solution**: Modified Dockerfile.frontend to use `${PORT:-3000}` environment variable
+
+### Dockerfile.frontend Updated
+```dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/build /app/build
+EXPOSE ${PORT:-3000}
+CMD sh -c "serve -s build -l ${PORT:-3000}"
+```
+
+### Deployment Results
+- ✅ Frontend loads successfully at https://supply-chain-optimizati-platform.thanhphongle.net
+- ✅ All assets loading (main.js: 63.4 kB, main.css: 1.2 kB)
+- ✅ API calls returning 200 status
+- ✅ No CORS errors in console
+- ✅ Dashboard displaying properly
+
+### Verification
+**Network Tab:**
+- `/optimize` - 200 OK
+- `/assess?regions=US,EU&checkTypes=weather,geopolitical` - 200 OK
+- `/status?items=item1,item2,item3&timeframe=30` - 200 OK
+
+**Console:** No errors
+
+### Status
+- ✅ CORS issue resolved with relative URLs
+- ✅ Frontend successfully deployed to Railway
+- ✅ Multi-agent system accessible via web

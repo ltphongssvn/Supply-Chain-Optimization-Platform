@@ -89,3 +89,30 @@ cd frontend && npm start
 ```
 http://localhost:3000
 ```
+
+## API Syntax Fix - 2025-11-10
+
+### Issue Fixed
+- **File**: `frontend/src/services/api.js`
+- **Problem**: Incorrect axios syntax with misplaced backticks
+- **Error Pattern**: `axios.post\`${API_URL}/api/v1/routes/optimize\`, {`
+- **Fixed Pattern**: `axios.post(\`${API_URL}/api/v1/routes/optimize\`, {`
+
+### Fix Applied
+```bash
+sed -i 's/axios\.post`/axios.post(`/g; s/axios\.get`/axios.get(`/g; s/optimize`,/optimize`,/g; s/assess`,/assess`,/g; s/status`,/status`,/g' frontend/src/services/api.js
+```
+
+### Verification
+```bash
+cat frontend/src/services/api.js
+```
+
+### Result
+All three API methods now use correct syntax:
+- `axios.post()` for routes/optimize
+- `axios.get()` for risks/assess  
+- `axios.get()` for inventory/status
+
+### Status
+✅ API syntax errors resolved - frontend can now make valid axios calls
