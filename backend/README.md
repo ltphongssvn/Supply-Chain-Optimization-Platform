@@ -393,3 +393,20 @@ curl -X POST http://localhost:3000/api/v1/agents/coordinate \
 2. Point to Dockerfile.backend
 3. Get backend URL from Railway
 4. Update frontend .env with backend URL
+
+## Backend Service Creation - Railway Dashboard Required
+
+### Current State
+- Single service exists: Supply-Chain-Optimizati-Platform (frontend)
+- Need separate backend service in same project
+
+### Steps Required
+1. Open Railway dashboard: https://railway.app
+2. Navigate to Supply-Chain-Optimizati-Platform project
+3. Click "+ New" → "GitHub Repo"
+4. Select same repo: ltphongssvn/Supply-Chain-Optimization-Platform
+5. Name service: "backend"
+6. Set build settings:
+   - Root Directory: `/`
+   - Dockerfile Path: `Dockerfile.backend`
+7. Deploy
