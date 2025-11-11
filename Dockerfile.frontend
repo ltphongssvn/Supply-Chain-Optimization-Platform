@@ -4,7 +4,10 @@ WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ .
-RUN npm run build
+# Use ARG for build-time variable
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:8080}
+RUN echo "Building with API URL: $REACT_APP_API_URL" && npm run build
 
 FROM node:18-alpine
 WORKDIR /app

@@ -590,3 +590,64 @@ CMD sh -c "serve -s build -l ${PORT:-3000}"
 - ✅ CORS issue resolved with relative URLs
 - ✅ Frontend successfully deployed to Railway
 - ✅ Multi-agent system accessible via web
+
+## Frontend-Backend API Connection Troubleshooting - 2025-11-11
+
+### Problem Identified
+Frontend loaded but showed "No data available" in all sections (Route Optimization, Risk Alerts, Inventory Status)
+
+### Root Cause Analysis
+
+1. **Checked frontend API configuration:**
+```bash
+cat frontend/src/services/api.js
+# Output: const API_URL = process.env.REACT_APP_API_URL || '';
+```
+Frontend was using empty string for API_URL, causing relative API calls to itself.
+
+2. **Verified Railway services:**
+Both frontend and backend deployed on Railway:
+- Frontend: https://supply-chain-optimizati-platform.thanhphongle.net
+- Backend: https://supply-chain-optimizati-platform-production.up.railway.app
+
+3. **Checked Railway environment variables:**
+```bash
+railway variables --service frontend
+# Output: REACT_APP_API_URL = https://supply-chain-optimizati-platform-production.up.railway.app
+```
+Variable was set but not being used during Docker build.
+
+### Solution Applied
+
+1. **Modified Dockerfile.frontend to accept build arguments:**
+```dockerfile
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL:-http://localhost:8080}
+RUN echo "Building with API URL: $REACT_APP_API_URL" && npm run build
+```
+
+2. **Forced rebuild without cache:**
+```bash
+echo "// Cache bust: $(date +%s)" >> frontend/src/services/api.js
+railway up --service frontend
+# Build output: Building with API URL: https://supply-chain-optimizati-platform-production.up.railway.app
+```
+
+### Verification
+
+1. **Confirmed backend URL in compiled bundle:**
+```bash
+curl -s https://supply-chain-optimizati-platform.thanhphongle.net/ | grep -o "main.[a-z0-9]*\.js" | head -1 | xargs -I {} curl -s https://supply-chain-optimizati-platform.thanhphongle.net/static/js/{} | grep -o "https://supply[^\"]*" | head -1
+# Output: https://supply-chain-optimizati-platform-production.up.railway.app
+```
+
+2. **Tested backend API:**
+```bash
+curl -X POST https://supply-chain-optimizati-platform-production.up.railway.app/api/v1/routes/optimize -H "Content-Type: application/json" -d '{"destinations": ["NYC", "LA"], "constraints": {"maxTime": 48}}' -s | jq -r '.status'
+# Output: success
+```
+
+### Result
+✅ Frontend successfully connects to backend API
+✅ Dashboard displays real data from multi-agent system
+✅ No hardcoded URLs - uses environment variables
