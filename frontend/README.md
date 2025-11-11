@@ -116,3 +116,27 @@ All three API methods now use correct syntax:
 
 ### Status
 ✅ API syntax errors resolved - frontend can now make valid axios calls
+
+## Frontend-Backend Connection Issue - 2025-11-10
+
+### Problem Diagnosis
+- **Issue**: Frontend shows blank data - no API connection
+- **Root Cause**: Backend not deployed to Railway
+- **Current State**: 
+  - Frontend deployed at: https://supply-chain-optimizati-platform.thanhphongle.net
+  - Backend: NOT DEPLOYED (both URLs return HTML)
+  - Frontend .env: Points to localhost:3000 (invalid for production)
+
+### Test Results
+```bash
+# Both URLs return frontend HTML, not API responses:
+curl https://supply-chain-optimizati-platform-production.up.railway.app/health
+# Returns: HTML (frontend)
+curl https://supply-chain-optimizati-platform.thanhphongle.net/api/v1/routes/optimize
+# Returns: HTML (frontend)
+```
+
+### Solution Required
+1. Deploy backend as separate Railway service
+2. Update frontend .env with backend URL
+3. Redeploy frontend
