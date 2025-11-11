@@ -380,3 +380,16 @@ curl -X POST http://localhost:3000/api/v1/agents/coordinate \
 - Environment configuration working
 - All 4 agents operational
 - Multi-agent coordination functional
+
+## Backend Railway Deployment - 2025-11-10
+
+### Dockerfile.backend Created
+- **Purpose**: Deploy backend as separate Railway service
+- **Configuration**: Uses PORT environment variable from Railway
+- **CMD**: Runs server.js directly with node
+
+### Deployment Steps
+1. Create new Railway service for backend
+2. Point to Dockerfile.backend
+3. Get backend URL from Railway
+4. Update frontend .env with backend URL
