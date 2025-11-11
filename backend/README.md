@@ -410,3 +410,21 @@ curl -X POST http://localhost:3000/api/v1/agents/coordinate \
    - Root Directory: `/`
    - Dockerfile Path: `Dockerfile.backend`
 7. Deploy
+
+## Backend Deployment Success - 2025-11-11
+
+### Deployment Status
+✅ Backend deployed to Railway
+- URL: https://supply-chain-optimizati-platform.thanhphongle.net
+- Health endpoint verified: /health returns JSON
+- Port: 8080
+- Status: "healthy"
+
+### Issue
+- Backend replaced frontend on same Railway service
+- Need separate services for frontend and backend
+- Railway CLI cannot create new services (dashboard required)
+
+### Current State
+- Backend: LIVE at https://supply-chain-optimizati-platform.thanhphongle.net
+- Frontend: NOT ACCESSIBLE (replaced by backend)
